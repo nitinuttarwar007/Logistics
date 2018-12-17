@@ -10,6 +10,7 @@ import { getAllTrades, getTradesColumns, addNewTrade } from '../../redux/actions
 import TableComponent from '../public/TableComponent';
 import FormComponent from '../public/FormComponent';
 import InfoPane from '../public/InfoPane';
+import ModalComponent from '../public/ModalComponent';
 
 const styles = theme => ({
     addBtn: {
@@ -20,7 +21,8 @@ const styles = theme => ({
 class ConnectedTradesPage extends React.Component {
     state = {
         selectedRow: {},
-        renderForm: false
+        renderForm: false,
+        isOpenModal: false
     }
 
     componentDidMount() {
@@ -48,9 +50,12 @@ class ConnectedTradesPage extends React.Component {
 
     addNewItem( values) {
         this.props.addNewTrade(values);
-        console.log(this.props.message);
-        alert(this.props.message);
+        this.setState({ isOpenModal: true });
     }
+
+    handleClose = () => {
+        this.setState({ isOpenModal: false });
+    };
 
     render() {
         const { classes, trades, tradesColumn } = this.props;
@@ -86,6 +91,12 @@ class ConnectedTradesPage extends React.Component {
                         <AddIcon onClick={this.handleAddClick.bind(this)}/>
                     </Fab>
                 </Tooltip>
+                <ModalComponent
+                    openModal={this.state.isOpenModal}
+                    header={'Status: '}
+                    message={this.props.message}
+                    onCloseModal={this.handleClose}
+                />
             </div>
         )
     }
@@ -95,7 +106,7 @@ const mapStateToProps = (state) =>  {
     return {
         trades: state.TradeReducer.trades ? state.TradeReducer.trades.data : [],
         tradesColumn: state.TradeReducer.tradesColumn || [],
-        message: state.TradeReducer.message || ' '
+        message: state.TradeReducer.message ? state.TradeReducer.message.data : ' '
     }
 };
 
