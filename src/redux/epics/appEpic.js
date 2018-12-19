@@ -1,7 +1,9 @@
 import { combineEpics } from 'redux-observable';
-import { getAllTrades, addNewTrade } from './tradeEpic';
+import tradeEpic from './tradeEpic';
 
 export const appEpic = combineEpics(
-    getAllTrades,
-    addNewTrade
+    tradeEpic.getAllTrades,
+    tradeEpic.addNewTrade,
+    tradeEpic.updateTrade,
+    tradeEpic.deleteTrade
 );

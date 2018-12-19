@@ -47,7 +47,7 @@ class FormComponent extends Component {
         if(nextProps.editItem !== this.props.editItem){
             this.setState({
                 tradeState: this.getInitialFormValues(nextProps.editItem)
-            })
+            });
           }
     }
 
@@ -67,8 +67,13 @@ class FormComponent extends Component {
 
     submitForm = (e) => {
         e.preventDefault();
-        console.log(this.state.tradeState);
         this.props.handleSubmit(this.state.tradeState);
+    }
+
+    clearFormFields = () => {
+        this.setState({
+            tradeState: this.getInitialFormValues(this.props.editItem)
+        });
     }
 
     render() {
@@ -118,7 +123,7 @@ class FormComponent extends Component {
                     <Button type="submit" variant="outlined" color="primary" className={classes.button}>
                         Save
                     </Button>
-                    <Button variant="outlined" color="secondary" className={classes.button}>
+                    <Button variant="outlined" color="secondary" className={classes.button} onClick={this.clearFormFields}>
                         Cancel
                     </Button>
                 </div>

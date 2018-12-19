@@ -41,15 +41,16 @@ const styles = theme => ({
 });
 
 function InfoPane( props ) {
-const { classes, selectedItem, columns, onEdit } = props;
+const { classes, selectedItem, columns, onEdit, onDelete } = props;
+
     return (
         <Paper elevation={1} className={classes.root}>
             <Fab aria-label="Edit" size="small" className={classes.fab1}>
                 <EditIcon onClick={onEdit}/>
             </Fab>
             <Tooltip title="Delete">
-                <Fab aria-label="Edit" size="small" className={classes.fab2}>
-                    <DeleteIcon />
+                <Fab aria-label="delete" size="small" className={classes.fab2}>
+                    <DeleteIcon onClick={onDelete}/>
                 </Fab>
             </Tooltip>
                 <h2 className={classes.header}>Trade ID: {selectedItem.trade_id}</h2>

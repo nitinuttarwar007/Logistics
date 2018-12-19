@@ -46,7 +46,7 @@ export class TableComponent extends React.Component {
           </TableHead>
           <TableBody>
               {rows.map(item => (
-                  <TableRow hover={true} key={item.id} onClick={this.selectItem.bind(this, item)}>
+                  <TableRow hover={true} onClick={this.selectItem.bind(this, item)}>
                       {columns.map(column => (
                           <TableCell
                               key={column.name}

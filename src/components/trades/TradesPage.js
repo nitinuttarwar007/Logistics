@@ -6,15 +6,17 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
-import { getAllTrades, getTradesColumns, addNewTrade } from '../../redux/actions/TradeActions';
+import tradeActions from '../../redux/actions/TradeActions';
 import TableComponent from '../public/TableComponent';
 import FormComponent from '../public/FormComponent';
 import InfoPane from '../public/InfoPane';
 import ModalComponent from '../public/ModalComponent';
 
+const STATUS_OPEN = 'OPEN';
 const styles = theme => ({
     addBtn: {
-         margin: '-30% 72%'
+        position: 'fixed',
+        margin: '-2% 72%'
     }
 });
 
@@ -25,7 +27,7 @@ class ConnectedTradesPage extends React.Component {
         isOpenModal: false
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.props.getAllTrades();
         this.props.getTradesColumns();
     }
@@ -48,17 +50,33 @@ class ConnectedTradesPage extends React.Component {
         this.setState({ renderForm: true });
     }
 
-    addNewItem( values) {
-        this.props.addNewTrade(values);
+    handleDeleteClick() {
+        this.props.deleteTrade(this.state.selectedRow.trade_id);
+        let deleteIndex = this.props.trades.findIndex(x => x.trade_id === this.state.selectedRow.trade_id);
+        this.setState({
+            isOpenModal: true,
+            selectedRow: this.props.trades[deleteIndex -1]
+        });
+    }
+
+    addNewTrade(newTrade) {
+        let newTradeId = this.props.trades.length + 1;
+        this.props.addNewTrade({...newTrade, trade_id: newTradeId, status: STATUS_OPEN});
         this.setState({ isOpenModal: true });
     }
 
-    handleClose = () => {
+    updateTrade(editTrade) {
+        this.props.updateTrade({...editTrade, trade_id: this.state.selectedRow.trade_id, status: this.state.selectedRow.status});
+        this.setState({ isOpenModal: true });
+    }
+
+    handleCloseModal = () => {
         this.setState({ isOpenModal: false });
     };
 
     render() {
-        const { classes, trades, tradesColumn } = this.props;
+        const { classes, trades, tradesColumn, message } = this.props;
+        const { renderForm, selectedRow, isOpenModal } = this.state;
         return (
             <div>
                 <Grid container spacing={16}>
@@ -72,16 +90,17 @@ class ConnectedTradesPage extends React.Component {
                         />
                     </Grid>
                     <Grid item xs={3}>
-                        { !this.state.renderForm ?
+                        { !renderForm ?
                             <InfoPane
-                                selectedItem={this.state.selectedRow}
+                                selectedItem={selectedRow}
                                 columns={tradesColumn}
                                 onEdit={this.handleEditClick.bind(this)}
+                                onDelete={this.handleDeleteClick.bind(this)}
                             /> :
                             <FormComponent
-                                editItem={this.state.selectedRow}
+                                editItem={selectedRow}
                                 columns={tradesColumn}
-                                handleSubmit={this.addNewItem.bind(this)}
+                                handleSubmit={(Object.keys(selectedRow)).length === 0 ? this.addNewTrade.bind(this) : this.updateTrade.bind(this)}
                             />
                         }
                     </Grid>
@@ -92,10 +111,10 @@ class ConnectedTradesPage extends React.Component {
                     </Fab>
                 </Tooltip>
                 <ModalComponent
-                    openModal={this.state.isOpenModal}
+                    openModal={isOpenModal}
                     header={'Status: '}
-                    message={this.props.message}
-                    onCloseModal={this.handleClose}
+                    message={message}
+                    onCloseModal={this.handleCloseModal}
                 />
             </div>
         )
@@ -104,17 +123,25 @@ class ConnectedTradesPage extends React.Component {
 
 const mapStateToProps = (state) =>  {
     return {
-        trades: state.TradeReducer.trades ? state.TradeReducer.trades.data : [],
+        trades: state.TradeReducer.trades ? state.TradeReducer.trades : [],
         tradesColumn: state.TradeReducer.tradesColumn || [],
-        message: state.TradeReducer.message ? state.TradeReducer.message.data : ' '
+        message: state.TradeReducer.message || ' '
     }
 };
 
 const mapDispatchToProps = dispatch => {
+    let getAllTrades = tradeActions.getAllTrades,
+        getTradesColumns = tradeActions.getTradesColumns,
+        addNewTrade = tradeActions.addNewTrade,
+        updateTrade = tradeActions.updateTrade,
+        deleteTrade = tradeActions.deleteTrade;
+
     return bindActionCreators({
-    getAllTrades,
-    getTradesColumns,
-    addNewTrade
+        getAllTrades,
+        getTradesColumns,
+        addNewTrade,
+        updateTrade,
+        deleteTrade
     }, dispatch);
 }
 
