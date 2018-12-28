@@ -62,12 +62,20 @@ class ConnectedTradesPage extends React.Component {
     addNewTrade(newTrade) {
         let newTradeId = this.props.trades.length + 1;
         this.props.addNewTrade({...newTrade, trade_id: newTradeId, status: STATUS_OPEN});
-        this.setState({ isOpenModal: true });
+        this.setState({ 
+            isOpenModal: true,
+            renderForm: false, 
+            selectedRow: newTrade
+        });
     }
 
     updateTrade(editTrade) {
         this.props.updateTrade({...editTrade, trade_id: this.state.selectedRow.trade_id, status: this.state.selectedRow.status});
-        this.setState({ isOpenModal: true });
+        this.setState({ 
+            isOpenModal: true, 
+            renderForm: false, 
+            selectedRow: editTrade 
+        });
     }
 
     handleCloseModal = () => {

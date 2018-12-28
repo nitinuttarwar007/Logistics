@@ -1,10 +1,12 @@
-import TradeReducer from './TradeReducer';
 import {combineReducers} from 'redux';
-import { reducer as reduxFormReducer } from 'redux-form';
+import TradeReducer from './TradeReducer';
+import TransportsReducer from './TransportsReducer';
+import TransferReducer from './TransferReducer';
 
 const AppReducer = combineReducers({
     TradeReducer,
-    reduxFormReducer
+    TransportsReducer,
+    TransferReducer
 });
 
 export default AppReducer;

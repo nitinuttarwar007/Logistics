@@ -16,7 +16,8 @@ const danger = red[500];
 
 const styles = theme => ({
       root: {
-        padding: '15px'
+        padding: '15px',
+        marginTop: '20px'
       },
       header: {
         border: '2px solid #f50057',

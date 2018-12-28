@@ -1,4 +1,3 @@
-//import { RECEIVE_TRADES, GET_TRADES_COLUMNS, ADD_NEW_TRADE_SUCCESS, ADD_NEW_TRADE_FAIL, UPDATE_TRADE_SUCCESS, DELETE_TRADE_SUCCESS } from '../constants/action-types';
 import  actionTypes from '../constants/action-types';
 
 const TradeReducer = (state = {}, action) => {
