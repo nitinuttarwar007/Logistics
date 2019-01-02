@@ -11,7 +11,6 @@ import TableComponent from '../public/TableComponent';
 import FormComponent from '../public/FormComponent';
 import InfoPane from '../public/InfoPane';
 import ModalComponent from '../public/ModalComponent';
-import AdvancedSearchComponent from '../public/AdvancedSearchComponent';
 
 const STATUS_OPEN = 'OPEN';
 const styles = theme => ({
