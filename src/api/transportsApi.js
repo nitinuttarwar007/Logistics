@@ -16,7 +16,6 @@ class TransportsApi {
   }
 
   updateTransport(editTransport) {
-    console.log(editTransport.transport_id);
     return axios.post(this.serverURL + '/updateTransport/' + editTransport.transport_id, {editTransport});
   }
 
@@ -25,7 +24,6 @@ class TransportsApi {
   }
   
   getTradesToTransports(purchaseTradeIds) {
-    console.log(purchaseTradeIds);
     return axios.get(this.serverURL + '/getTradesToTransports', { 
       params: { 
         tradeIds: purchaseTradeIds

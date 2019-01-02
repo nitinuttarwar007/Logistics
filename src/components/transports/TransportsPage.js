@@ -63,7 +63,7 @@ class ConnectedTransportsPage extends React.Component {
         isOpenModal: false
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getAllTransports();
         this.props.getTransportsColumns();
     }
@@ -75,7 +75,6 @@ class ConnectedTransportsPage extends React.Component {
         });
 
         this.props.getTradesColumns();
-        console.log(item.loadTransfer);
         this.props.getPurchaseTransports(item.loadTransfer);
         this.props.getSalesTransports(item.unloadTransfer);
     }
@@ -155,7 +154,7 @@ class ConnectedTransportsPage extends React.Component {
                                         onRowSelection={this.onRowSelection.bind(this)}
                                     />
                                     {
-                                        purchaseTransports.leength !==0 ?
+                                        purchaseTransports.length !==0 ?
                                         <TableComponent
                                             rows={purchaseTransports}
                                             orderBy="name"

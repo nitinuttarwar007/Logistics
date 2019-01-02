@@ -33,7 +33,7 @@ class ConnectedTransfersPage extends React.Component {
       isOpenModal: false
     }
   }
-  componentWillMount() {
+  componentDidMount() {
     this.props.getAllPurchaseTrades();
     this.props.getAllSalesTrades();
     this.props.getTradesColumnsForTransfers();    
@@ -60,14 +60,9 @@ class ConnectedTransfersPage extends React.Component {
   }
 
   nominateTransport(selectedTransport) {
-    // console.log('nominateTransport!!!', selectedTransport);
-    // console.log(this.state.purchase);
-    // console.log(this.state.sales);
-    console.log({ ...selectedTransport, laodTransfer: [...[this.state.purchase.trade_id]], unLaodTransfer: [...[this.state.sales.trade_id]] });
     this.props.updateTradeStatus(this.state.purchase.trade_id, 'NOMINATED');
     this.props.updateTradeStatus(this.state.sales.trade_id, 'NOMINATED');
-    //this.props.updateTransportsAddTransfer({ ...selectedTransport, laodTransfer: [...[this.state.purchase.trade_id]], unLaodTransfer: [...[this.state.sales.trade_id]] });
-    this.props.updateTransportsAddTransfer(selectedTransport.transport_id, this.state.purchase.trade_id, this.state.sales.trade_id)
+    this.props.updateTransportsAddTransfer(selectedTransport.transport_id, this.state.purchase.trade_id, this.state.sales.trade_id);
     this.setState({ isOpenModal: true });
   }
 

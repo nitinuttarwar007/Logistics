@@ -10,7 +10,8 @@ import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
       root: {
-        padding: '15px'
+        padding: '15px',
+        marginTop: '20px'
       },
       header: {
         border: '2px solid #f50057',
@@ -39,20 +40,20 @@ class FormComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tradeState: this.getInitialFormValues(this.props.editItem)
+            itemState: this.getInitialFormValues(this.props.editItem)
         }
     }
 
     componentWillReceiveProps = (nextProps) => {
-        if(nextProps.editItem !== this.props.editItem){
+        if(nextProps.editItem !== this.props.editItem) {
             this.setState({
-                tradeState: this.getInitialFormValues(nextProps.editItem)
+                itemState: this.getInitialFormValues(nextProps.editItem)
             });
           }
     }
 
     getInitialFormValues = (editItem) => {
-        return this.props.columns.reduce(function(acc,col){
+        return this.props.columns.reduce(function(acc,col) {
             acc[col.name] ?
               acc[col.name] += " " :
               acc[col.name] = editItem[col.name] ||  " " ;
@@ -61,18 +62,18 @@ class FormComponent extends Component {
     }
 
     handleFieldChange =  name => event  => {
-        let newTradeState = {...this.state.tradeState, [name]: event.target.value}
-        this.setState({tradeState: newTradeState});
+        let newItemState = {...this.state.itemState, [name]: event.target.value};
+        this.setState({itemState: newItemState});
     };
 
     submitForm = (e) => {
         e.preventDefault();
-        this.props.handleSubmit(this.state.tradeState);
+        this.props.handleSubmit(this.state.itemState);
     }
 
     clearFormFields = () => {
         this.setState({
-            tradeState: this.getInitialFormValues(this.props.editItem)
+            itemState: this.getInitialFormValues(this.props.editItem)
         });
     }
 
@@ -93,12 +94,12 @@ class FormComponent extends Component {
                                 <TextField
                                         type={column.inputType ? column.inputType : 'text'}
                                         className={classes.textField}
-                                        value={this.state.tradeState[column.name]}
+                                        value={this.state.itemState[column.name]}
                                         onChange={this.handleFieldChange(column.name)}
                                 /> :
                                 <RadioGroup
                                     className={classes.radioButtonGroup}
-                                    value={this.state.tradeState[column.name]}
+                                    value={this.state.itemState[column.name]}
                                     onChange={this.handleFieldChange(column.name)}
                                 >
                                     <FormControlLabel
@@ -118,15 +119,14 @@ class FormComponent extends Component {
                         </Grid>
                     </Grid>
                     ))}
-
-                <div className={classes.buttonGroup}>
-                    <Button type="submit" variant="outlined" color="primary" className={classes.button}>
-                        Save
-                    </Button>
-                    <Button variant="outlined" color="secondary" className={classes.button} onClick={this.clearFormFields}>
-                        Cancel
-                    </Button>
-                </div>
+                    <div className={classes.buttonGroup}>
+                        <Button type="submit" variant="outlined" color="primary" className={classes.button}>
+                            Save
+                        </Button>
+                        <Button variant="outlined" color="secondary" className={classes.button} onClick={this.clearFormFields}>
+                            Cancel
+                        </Button>
+                    </div>
                 </form>
             </Paper>
         );
