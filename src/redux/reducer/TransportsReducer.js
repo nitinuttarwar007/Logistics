@@ -3,7 +3,6 @@ import  actionTypes from '../constants/action-types';
 const TransportsReducer = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.RECEIVE_TRANSPORTS:
-        console.log(state);
         return { ...state, transports: action.transports };
 
     case actionTypes.GET_TRANSPORTS_COLUMNS:
